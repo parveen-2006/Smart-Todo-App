@@ -1,7 +1,11 @@
 import React from 'react'
+import Dashboard from './Pages/Dashboard'
+
 
 export default function App() {
   return (
-    <div>We're about to make Smart todo app using backend</div>
+    <div>
+      <Dashboard/>
+    </div>
   )
 };
