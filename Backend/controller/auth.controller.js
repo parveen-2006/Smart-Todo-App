@@ -32,16 +32,9 @@ const signupUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    // secret key
-    const SECRET_KEY = "SMARTTODO";
-
-    //token Generation
-    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "7d" });
-
     res.status(201).json({
       success: true,
-      message: "User created",
-      token
+      message: "Registered successful",
     });
   } catch (err) {
     console.log("signup Err Route :", err);
@@ -52,6 +45,50 @@ const signupUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "User not Found",
+      });
+    }
+
+    //payload
+    let tokenPayLoad = {
+      existingUser,
+    };
+
+    // secret key
+    const SECRET_KEY = "SMARTTODO";
+
+    //token Generation
+    const token = jwt.sign(tokenPayLoad, SECRET_KEY, { expiresIn: "7d" });
+
+    //checking the password
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "invalid password",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login successfully",
+      token,
+    });
+  } catch (err) {
+    console.log("Login err route: ", err);
+    res.status(400).json({
+      success: false,
+      message: "login route err",
+    });
+  }
+};
 
 module.exports = { signupUser, loginUser };
