@@ -22,11 +22,9 @@ const UserSchema = mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true 
-    ``
-  },
+  { timestamps: true },
 );
 
-let User = mongoose.model("User" , UserSchema);
+let User = mongoose.model("User", UserSchema);
 
 module.exports = User;
