@@ -5,4 +5,17 @@ const instance = axios.create({
   timeout: 2000,
 });
 
+//Attach token automatically 
+instance.interceptors.request.use((req)=>{
+  const token = localStorage.getItem("token");
+
+  if(token){
+    req.headers.Authorization = `bearer ${token}`
+  }
+
+
+  return req
+})
+
+
 export default instance;
