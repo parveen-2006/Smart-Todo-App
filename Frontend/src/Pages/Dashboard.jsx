@@ -13,7 +13,7 @@ export default function Dashboard() {
             title,
             completed: false,
         }
-
+        
         setTasks([...tasks, newTask]);
         setTitle("");
     }
