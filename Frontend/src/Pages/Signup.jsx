@@ -1,7 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
+import instance from '../Services/Api';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Signup() {
+    const navigate = useNavigate()
+
     const [register, setRegister] = useState({
         name: "",
         email: "",
@@ -11,7 +16,14 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await instance.post("/signup")
+            const response = await instance.post("/auth/signup" , register);
+            console.log(response)
+            if(response.data.success){
+                alert("Registered Successful")
+                setTimeout(() => {
+                    navigate("/login")
+                }, 1000);
+            }
 
         } catch (err) {
             console.log("Registration err " , err)   
