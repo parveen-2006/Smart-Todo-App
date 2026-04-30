@@ -57,9 +57,12 @@ const loginUser = async (req, res) => {
       });
     }
 
+    //checking the password
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+
     //payload
     let tokenPayLoad = {
-      existingUser,
+      id: existingUser._id,
     };
 
     // secret key
@@ -67,9 +70,6 @@ const loginUser = async (req, res) => {
 
     //token Generation
     const token = jwt.sign(tokenPayLoad, SECRET_KEY, { expiresIn: "7d" });
-
-    //checking the password
-    const isMatch = await bcrypt.compare(password, existingUser.password);
 
     if (!isMatch) {
       return res.status(400).json({

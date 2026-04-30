@@ -10,12 +10,15 @@ const protect = (req, res, next) => {
       });
     }
     const SECRET_KEY = "SMARTTODO";
-    const token = authHeader.spilt(" ")[1];
+    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, SECRET_KEY);
 
     req.user = decoded.id;
 
+    // console.log("AUTH HEADER:", req.headers.authorization);
+    // console.log("TOKEN:", token);
+    // console.log("DECODED:", decoded);
     next();
   } catch (err) {
     return res.status(401).json({

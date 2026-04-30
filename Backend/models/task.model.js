@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const User = require("./user.model");
+const User = require("./user.model")
+
 
 const taskSchema = mongoose.Schema({
   title: {
@@ -11,7 +12,7 @@ const taskSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "Completed"],
+    enum: ["pending", "completed"],
     default: "pending",
   },
   priority: {
@@ -25,3 +26,8 @@ const taskSchema = mongoose.Schema({
     required: true,
   },
 });
+
+
+const Task = mongoose.model("Task" ,taskSchema);
+
+module.exports = Task;
