@@ -1,17 +1,17 @@
 const expresss = require("express");
 const router = expresss.Router();
 const protect = require("../middleware/auth.middleware");
-const {createTask} = require("../controller/task.controller")
+const {createTask , getTasks} = require("../controller/task.controller")
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Success",
-  });
-});
 
+//Create
 router.post("/" , protect , createTask , ()=>{
   console.log('task.route.js')
+});
+
+//Read
+router.get("/" , protect , getTasks , ()=>{
+  console.log('task.route.js , getTasks')
 });
 
 module.exports = router;

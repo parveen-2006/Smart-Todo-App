@@ -24,7 +24,7 @@ const createTask = async (req, res) => {
       task,
     });
   } catch (err) {
-    console.log("create task error route : " , err)
+    console.log("create task error route : ", err);
     res.status(500).json({
       success: false,
       message: "task not created",
@@ -32,6 +32,22 @@ const createTask = async (req, res) => {
   }
 };
 
+//Read
+const getTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user });
 
+    res.status(200).json({
+      success: true,
+      tasks,
+    });
+  } catch (err) {
+    console.log("getTask Route : ", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch User",
+    });
+  }
+};
 
-module.exports = {createTask};
+module.exports = { createTask , getTasks };
