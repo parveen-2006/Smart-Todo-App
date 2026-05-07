@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import instance from "../Services/Api"
+
 
 export default function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [title, setTitle] = useState("");
 
-    const handleAdd = () => {
+    //Fetch tasks
+    const fetchTasks = async () => {
+        try {
+            const res = await instance.get('/tasks');
+            setTasks(res.data.tasks);
+        } catch (err) {
+            console.log("fetch err", err)
+        }
+    }
+
+    // Run on Load
+    useEffect(() => {
+        fetchTasks();
+    })
+
+
+    const handleAdd = async () => {
         if (!title) return;
+        try {
+            await instance.post("/tasks", { title });
+        } catch (err) {
+            console.log("Add err", err)
+        }
 
-        const newTask = {
-            id: Date.now(),
-            title,
-        };
-
-        setTasks([...tasks, newTask]); // ✅ FIXED
-        setTitle("");
     };
-    const handleDelete = (e) => {
-        console.log()
+    const handleDelete = async (e) => { 
+        console.log("Delete Tasks")
     }
 
     return (
@@ -31,12 +48,11 @@ export default function Dashboard() {
 
             <button onClick={handleAdd}>Add</button>
 
-            {tasks.map((task) => (<div>
-
-                <div key={task.id}>{task.title}</div>
-                <button onClick={handleDelete}>Delete</button>
-
-            </div>
+            {tasks.map((task) => (
+                <div>
+                    <div key={task._id}>{task.title}</div>
+                    <button onClick={handleDelete}>Delete</button>
+                </div>
             ))}
         </div>
     );
