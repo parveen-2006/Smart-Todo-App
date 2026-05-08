@@ -4,7 +4,8 @@ const protect = require("../middleware/auth.middleware");
 const {
   createTask,
   getTasks,
-  DeleteTasks,
+  deleteTasks,
+  toggleTaskStatus,
 } = require("../controller/task.controller");
 
 //Create
@@ -14,6 +15,9 @@ router.post("/", protect, createTask);
 router.get("/", protect, getTasks);
 
 //Delete
-router.delete("/:id", protect, DeleteTasks);
+router.delete("/:id", protect, deleteTasks);
+
+// toggle status updation
+router.patch("/:id" , protect , toggleTaskStatus)
 
 module.exports = router;

@@ -50,7 +50,7 @@ const getTasks = async (req, res) => {
   }
 };
 
-const DeleteTasks = async (req, res) => {
+const deleteTasks = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -83,4 +83,42 @@ const DeleteTasks = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasks, DeleteTasks };
+const toggleTaskStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    //we will find task first so we know that which task we're updating
+    const task = await Task.findOne({
+      _id: id,
+      user: req.user,
+    });
+
+    //validation
+    if (!task) {
+      res.status(404).json({
+        success: false,
+        message: "Task not Found",
+      });
+    }
+
+    //toggle logic
+    task.status = task.status === "pending" ? "completed" : "pending";
+
+    await task.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Task Status Updated",
+      task,
+    });
+  } catch (err) {
+    console.log("Toggle route err", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to Update Task",
+    });
+  }
+};
+
+module.exports = { createTask, getTasks, deleteTasks, toggleTaskStatus };

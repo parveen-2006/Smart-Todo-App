@@ -42,6 +42,16 @@ export default function Dashboard() {
         }
     }
 
+    const toggleTask = async (id)=>{
+        try {
+            await instance.patch(`/tasks/${id}`);
+
+            fetchTasks()
+        } catch (err) {
+            console.log("toggle err", err)
+        }
+    }
+
     return (
         <div>
             <h3>Smart Todo</h3>
