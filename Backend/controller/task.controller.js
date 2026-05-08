@@ -95,7 +95,7 @@ const toggleTaskStatus = async (req, res) => {
 
     //validation
     if (!task) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Task not Found",
       });
@@ -117,6 +117,53 @@ const toggleTaskStatus = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to Update Task",
+    });
+  }
+};
+
+const UpdateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+
+    //validation
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: "Title is required",
+      });
+    }
+
+    //find user
+    const task = await findOne({
+      _id: id,
+      user: req.user,
+    });
+
+    // task exists krta h!
+    if (!task) {
+      return (
+        res.status(404),
+        json({
+          success: false,
+          message: "Task not Found",
+        })
+      );
+    }
+
+
+    //update title
+    task.title = title;
+
+
+
+    // user save() is good here instead Create() -->> create ek nyi document bnata h lekin save() usi doc me changes krke save kr deta h 
+    await task.save();
+  } catch (err) {
+    console.log("Update route err ", err);
+    res.status(500).json({
+      success: false,
+      message: "Not Updated",
     });
   }
 };

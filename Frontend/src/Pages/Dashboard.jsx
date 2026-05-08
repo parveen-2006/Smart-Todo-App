@@ -68,6 +68,13 @@ export default function Dashboard() {
                 <div>
                     <div key={task._id}>{task.title}</div>
                     <button onClick={()=>handleDelete(task._id)}>Delete</button>
+                    <button onClick={()=>toggleTask(task._id)}>
+                        {task.status === "pending" 
+                        ? "complete" : "Undo"
+                        }
+                    </button>
+                    <p>Status : {task.status}</p>
+                    <hr />
                 </div>
             ))}
         </div>
