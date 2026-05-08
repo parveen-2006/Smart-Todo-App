@@ -34,13 +34,13 @@ export default function Login() {
         <div>
             <form onSubmit={handleSubmit}>
                 <input type="email"
-                    placeholder='Enter your name'
+                    placeholder='Enter your Email'
                     value={login.email}
                     name="email" 
                     onChange={handleChange}
                     />
                 <input type="password"
-                    placeholder='Enter your name'
+                    placeholder='Enter your Password'
                     value={login.password}
                     name="password" 
                     onChange={handleChange}

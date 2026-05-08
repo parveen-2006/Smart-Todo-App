@@ -50,4 +50,37 @@ const getTasks = async (req, res) => {
   }
 };
 
-module.exports = { createTask , getTasks };
+const DeleteTasks = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findOne({
+      _id: id,
+      user: req.user,
+    });
+
+    // validation
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
+
+    await task.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "tasks deleted successfully",
+    });
+  } catch (err) {
+    console.log("Delete Task Err", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to Delete tasks",
+    });
+  }
+};
+
+module.exports = { createTask, getTasks, DeleteTasks };

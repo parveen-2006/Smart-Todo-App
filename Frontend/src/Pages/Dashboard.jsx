@@ -32,8 +32,14 @@ export default function Dashboard() {
         }
 
     };
-    const handleDelete = async (e) => { 
-        console.log("Delete Tasks")
+    const handleDelete = async (id) => {
+        try {
+            await instance.delete(`/tasks/${id}`);
+
+            fetchTasks();
+        } catch (err) {
+            console.log("delete err", err)
+        }
     }
 
     return (
@@ -51,7 +57,7 @@ export default function Dashboard() {
             {tasks.map((task) => (
                 <div>
                     <div key={task._id}>{task.title}</div>
-                    <button onClick={handleDelete}>Delete</button>
+                    <button onClick={()=>handleDelete(task._id)}>Delete</button>
                 </div>
             ))}
         </div>
