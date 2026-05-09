@@ -1,12 +1,34 @@
-import React from 'react'
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  return (
-    <div>
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+
+        navigate("/login");
+    };
+
+    return (
         <nav>
-            <Link to="/">Dashboard</Link>
-            
+
+            <h2>SmartTodo</h2>
+
+            <div>
+
+                <Link to="/dashboard">
+                    Dashboard
+                </Link>
+
+                <button onClick={handleLogout}>
+                    Logout
+                </button>
+
+            </div>
+
         </nav>
-    </div>
-  )
+    );
 }

@@ -85,7 +85,7 @@ export default function Dashboard() {
             <button onClick={handleAdd}>Add</button>
 
             {tasks.map((task) => (
-                <div>
+                <div key={task._id}>
                     <div key={task._id}>Task :  {task.title}</div>
                     <button onClick={() => handleDelete(task._id)}>Delete</button>
                     <button onClick={() => toggleTask(task._id)}>
@@ -108,7 +108,6 @@ export default function Dashboard() {
                             </>
                         ) : (
                             <>
-                                <p>{task.title}</p>
 
                                 <button onClick={() => {
                                     setEditId(task._id)
