@@ -6,6 +6,7 @@ const {
   getTasks,
   deleteTasks,
   toggleTaskStatus,
+  UpdateTask
 } = require("../controller/task.controller");
 
 //Create
@@ -19,5 +20,8 @@ router.delete("/:id", protect, deleteTasks);
 
 // toggle status updation
 router.patch("/:id" , protect , toggleTaskStatus)
+
+// update 
+router.put("/:id" , protect , UpdateTask)
 
 module.exports = router;
